@@ -41,13 +41,49 @@ Dictionary::node Dictionary::insertCharacter(char character, Dictionary::node cu
   }
 }
 
-/*int Dictionary::getOccurrences(node curr_node, char c){
+int Dictionary::getOccurrences(node curr_node, char c){
+    int res = 0;
+    if (toupper((*curr_node).character) == c) {
+        ++res;
+    }
 
+    if(!curr_node.left_child().is_null()) {
+        res += getOccurrences(curr_node.left_child(),c);
+    }
+
+    if (!curr_node.right_sibling().is_null()) {
+        res += getOccurrences(curr_node.right_sibling(),c);
+    }
+
+    return res;
 }
 
 std::pair<int, int> Dictionary::getTotalUsages(node curr_node, char c){
+    pair<int,int> res(0,0);
+    pair<int,int> izq(0,0);
+    pair<int,int> dch(0,0);
+    if(!curr_node.left_child().is_null()) {
+        izq = getTotalUsages(curr_node.left_child(),c);
+    }
+    if(!curr_node.right_sibling().is_null()) {
+        dch = getTotalUsages(curr_node.right_sibling(),c);
+    }
 
-}*/
+    res.first = izq.first + dch.first;
+    res.second = izq.second + dch.second;
+
+    if (toupper((*curr_node).character) == c) {
+        res.first += izq.second;
+    }
+
+    if ((*curr_node).valid_word) {
+        ++res.second;
+        if (toupper((*curr_node).character) == c) {
+            ++res.first;
+        }
+    }
+    return res;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //                              Public functions                             //
@@ -142,49 +178,79 @@ std::istream& operator>>(std::istream &is, Dictionary &dict){
 //                            Recursive counters                             //
 ///////////////////////////////////////////////////////////////////////////////
 
-/*int Dictionary::getOccurrences(const char c){
+int Dictionary::getOccurrences(const char c){
 
+    return getOccurrences(words.get_root(),c);
 }
 
 int Dictionary::getTotalUsages(const char c){
-
-}*/
-
+    return getTotalUsages(words.get_root(),c).first;
+}
 ///////////////////////////////////////////////////////////////////////////////
 //                                 Iterator                                  //
 ///////////////////////////////////////////////////////////////////////////////
 
-/*Dictionary::iterator::iterator() {
+Dictionary::iterator::iterator() : iter() {
 
 }
 
-Dictionary::iterator::iterator(tree<char_info>::const_preorder_iterator iter) {
+Dictionary::iterator::iterator(tree<char_info>::const_preorder_iterator iter)  {
+    this->iter = iter;
+    curr_word ="";
 
 }
 
 std::string Dictionary::iterator::operator*() {
-
+    return curr_word;
 }
 
 Dictionary::iterator &Dictionary::iterator::operator++() {
+    //++iter;
+    int current_level = iter.get_level();
+    ++iter;
+    bool sigo = true;
+    while (sigo) {
+        //current_level = iter.get_level();
+        //++iter;
+        if (iter.get_level() > current_level) {
+            curr_word.push_back((*iter).character);
+        } else if (iter.get_level() == current_level) {
+            curr_word.pop_back();
+            curr_word.push_back((*iter).character);
+        } else {
+            curr_word.pop_back();
+            while (current_level != iter.get_level()) {
+                curr_word.pop_back();
+                current_level--;
+            }
+            curr_word.push_back((*iter).character);
+        }
 
+        if ((*iter).valid_word) sigo = false;
+        else {
+            current_level = iter.get_level();
+            ++iter;
+        }
+    }
+
+    return *this;
 }
 
 bool Dictionary::iterator::operator==(const iterator &other) {
-
+    return iter == other.iter;
 }
 
 bool Dictionary::iterator::operator!=(const iterator &other) {
-
+    return iter != other.iter;
 }
 
 Dictionary::iterator Dictionary::begin() const {
-
+    return words.cbegin_preorder();
 }
 
 Dictionary::iterator Dictionary::end() const {
-
-}*/
+    return words.cend_preorder();
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            Letters Iterator                               //
