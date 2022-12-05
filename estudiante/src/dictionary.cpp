@@ -209,6 +209,10 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
     int current_level = iter.get_level();
     ++iter;
     bool sigo = true;
+    if (iter.get_level() == 0) {
+        sigo = false;
+        curr_word = "";
+    }
     while (sigo) {
         //current_level = iter.get_level();
         //++iter;
@@ -219,14 +223,17 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
             curr_word.push_back((*iter).character);
         } else {
             curr_word.pop_back();
-            while (current_level != iter.get_level()) {
+            while (current_level != iter.get_level() && current_level != 0) {
                 curr_word.pop_back();
                 current_level--;
             }
             curr_word.push_back((*iter).character);
         }
 
-        if ((*iter).valid_word) sigo = false;
+        if ((*iter).valid_word) {
+            sigo = false;
+            //curr_word = "";
+        }
         else {
             current_level = iter.get_level();
             ++iter;
@@ -237,11 +244,11 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
 }
 
 bool Dictionary::iterator::operator==(const iterator &other) {
-    return iter == other.iter;
+    return iter == other.iter && curr_word == other.curr_word;
 }
 
 bool Dictionary::iterator::operator!=(const iterator &other) {
-    return iter != other.iter;
+    return iter != other.iter || curr_word != other.curr_word;
 }
 
 Dictionary::iterator Dictionary::begin() const {
