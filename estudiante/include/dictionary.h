@@ -247,7 +247,6 @@ public:
         int level;
         node current_node;
         string current_word;
-
     };
 
     possible_words_iterator possible_words_begin(vector<char> available_characters) const;

@@ -263,43 +263,110 @@ Dictionary::iterator Dictionary::end() const {
 //                            Letters Iterator                               //
 ///////////////////////////////////////////////////////////////////////////////
 
-/*
-Dictionary::possible_words_iterator Dictionary::possible_words_begin(vector<char> available_characters) const {
 
+Dictionary::possible_words_iterator Dictionary::possible_words_begin(vector<char> available_characters) const {
+    return possible_words_iterator(words.get_root(), available_characters);
 }
 
 Dictionary::possible_words_iterator Dictionary::possible_words_end() const {
-
+    return possible_words_iterator(words.get_root(),{});
 }
 
-Dictionary::possible_words_iterator::possible_words_iterator() {
+Dictionary::possible_words_iterator::possible_words_iterator():
+    available_letters(), level(-1), current_node(), current_word(""){}
 
+Dictionary::possible_words_iterator::possible_words_iterator(node current_node, vector<char> available_letters):
+        level(0), current_node(current_node){
+
+    for(char &c : available_letters)
+        this->available_letters.insert(c);
+
+    if(!(*current_node).valid_word)
+        ++(*this);
 }
 
-Dictionary::possible_words_iterator::possible_words_iterator(node current_node, vector<char> available_letters){
+Dictionary::possible_words_iterator::possible_words_iterator(const possible_words_iterator &other) = default;
 
-}
-
-Dictionary::possible_words_iterator::possible_words_iterator(const possible_words_iterator &other){
-
-}
-
-Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator=(const Dictionary::possible_words_iterator &other) {
-
-}
+Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator=(const Dictionary::possible_words_iterator &other) = default;
 
 bool Dictionary::possible_words_iterator::operator==(const Dictionary::possible_words_iterator &other) const {
 
+    // Solo comparamos estos campos porque es la única forma de compararlo con el iterador end()
+    return current_word == other.current_word && current_node == other.current_node;
 }
 
 bool Dictionary::possible_words_iterator::operator!=(const Dictionary::possible_words_iterator &other) const {
-
+    current_word != other.current_word || current_node != other.current_node;
 }
 
 Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator++() {
+
+
+    node child = current_node.left_child();
+
+    while(level != -1){
+
+        // Recorrido de los hijos
+        while(!child.is_null()){
+
+            multiset<char>::iterator c = available_letters.find((*child).character);
+            if(c != available_letters.end()){
+                if((*child).valid_word){
+
+                    // Nos quedamos con esta palabra
+                    ++level;
+                    current_node = child;
+                    current_word += *c;
+                    available_letters.erase(c);
+
+                    return *this;
+                }
+                else{
+                    vector<char> available_child;
+                    available_child.reserve(available_letters.size()-1);
+                    for(multiset<char>::iterator it = available_letters.begin(); it != available_letters.end(); ++it)
+                        if(it != c)
+                            available_child.push_back(*it);
+
+                    possible_words_iterator child_pwi(child, available_child);
+
+                    if(child_pwi.level != -1){
+
+                        // Nos quedamos con esta palabra
+                        level += 1 + child_pwi.level;
+                        current_node = child_pwi.current_node;
+                        current_word += *c + child_pwi.current_word;
+                        available_letters = child_pwi.available_letters;
+
+                        return *this;
+                    }
+                }
+            }
+
+            child = child.right_sibling();
+        }
+
+        // Me muevo al hermano, si no al tío, etc...
+        do{
+            if(level != 0){
+                available_letters.insert(current_word.back());
+                current_word.pop_back();
+            }
+
+            --level;
+            child = current_node;
+            current_node = current_node.parent();
+        }while(child.right_sibling().is_null() && level != -1);
+
+        if(!child.right_sibling().is_null())
+            child = child.right_sibling();
+    }
+
+    return *this;
 
 }
 
 std::string Dictionary::possible_words_iterator::operator*() const {
 
-}*/
+    return current_word;
+}
