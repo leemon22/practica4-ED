@@ -224,22 +224,62 @@ public:
 
     ///////////////////////////////////////////////// Letters Iterator /////////////////////////////////////////////////
 
+    /**
+     * @brief T.D.A Iterador Inteligente:
+     * Esta clase itera por las palabras del diccionario que contienen las letras pasadas al constructor por parámetros
+     */
     class possible_words_iterator {
     public:
+
+        /**
+         * @brief Constructor por defecto (usado por la función possible_words_end())
+         */
         possible_words_iterator();
 
+        /**
+         * @brief Constructor con parámetros
+         * @param current_node Nodo donde empezará el iterador.
+         * @param available_letters Letras que usará para iterar por el diccionario.
+         */
         possible_words_iterator(node current_node, vector<char> available_letters);
 
+        /**
+         * @brief Constructor de copia.
+         * @param other El otro iterador.
+         */
         possible_words_iterator(const possible_words_iterator &other);
 
+        /**
+         * @brief Sobrecarga del operador asignación.
+         * @param other El otro iterador.
+         * @return *this para encadenar asignaciones.
+         */
         possible_words_iterator &operator=(const possible_words_iterator &other);
 
+        /**
+         * @brief Operador igual.
+         * @param other Iterador al que queremos comparar.
+         * @return True si los iteradores apuntan al mismo nodo y comparten la misma palabra.
+         */
         bool operator==(const possible_words_iterator &other) const;
 
+        /**
+         * @brief Operador distinto.
+         * @param other Iterador al que queremos comparar.
+         * @return True si los iteradores NO apuntan al mismo nodo o NO comparten la misma palabra.
+         */
         bool operator!=(const possible_words_iterator &other) const;
 
+        /**
+         * @brief Avanza el iterador por el diccionario.
+         * @return *this para encadenar incrementos.
+         */
         possible_words_iterator &operator++();
 
+        /**
+         * @brief Operator dereference.
+         * @return La palabra almacenada en el iterador.
+         */
         std::string operator*() const;
 
     private:
@@ -249,8 +289,17 @@ public:
         string current_word;
     };
 
+    /**
+     * @brief iterador inteligente begin.
+     * @param available_characters Letras que usará el iterador para avanzar.
+     * @return El iterador apuntando a la primera palabra válida en el diccionario. Si no la encuentra, apuntará al nodo nulo padre.
+     */
     possible_words_iterator possible_words_begin(vector<char> available_characters) const;
 
+    /**
+     * @brief iterador inteligente begin.
+     * @return Un iterador inteligente apuntando al nodo nulo padre.
+     */
     possible_words_iterator possible_words_end() const;
 };
 

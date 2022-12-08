@@ -301,7 +301,6 @@ bool Dictionary::possible_words_iterator::operator!=(const Dictionary::possible_
 
 Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator++() {
 
-
     node child = current_node.left_child();
 
     while(level != -1){
@@ -309,40 +308,32 @@ Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operat
         // Recorrido de los hijos
         while(!child.is_null()){
 
+            // Comprueba si el hijo tiene una letra válida
             multiset<char>::iterator c = available_letters.find((*child).character);
             if(c != available_letters.end()){
-                if((*child).valid_word){
+
+                vector<char> available_child;
+                available_child.reserve(available_letters.size()-1);
+                for(multiset<char>::iterator it = available_letters.begin(); it != available_letters.end(); ++it)
+                    if(it != c)
+                        available_child.push_back(*it);
+
+                // Recorre el árbol del hijo en busca de una palabra válida
+                possible_words_iterator child_pwi(child, available_child);
+
+                if(child_pwi.level != -1){
 
                     // Nos quedamos con esta palabra
-                    ++level;
-                    current_node = child;
-                    current_word += *c;
-                    available_letters.erase(c);
+                    level += 1 + child_pwi.level;
+                    current_node = child_pwi.current_node;
+                    current_word += *c + child_pwi.current_word;
+                    available_letters = child_pwi.available_letters;
 
                     return *this;
                 }
-                else{
-                    vector<char> available_child;
-                    available_child.reserve(available_letters.size()-1);
-                    for(multiset<char>::iterator it = available_letters.begin(); it != available_letters.end(); ++it)
-                        if(it != c)
-                            available_child.push_back(*it);
-
-                    possible_words_iterator child_pwi(child, available_child);
-
-                    if(child_pwi.level != -1){
-
-                        // Nos quedamos con esta palabra
-                        level += 1 + child_pwi.level;
-                        current_node = child_pwi.current_node;
-                        current_word += *c + child_pwi.current_word;
-                        available_letters = child_pwi.available_letters;
-
-                        return *this;
-                    }
-                }
             }
 
+            // Avanzamos al siguiente hijo
             child = child.right_sibling();
         }
 
@@ -358,12 +349,12 @@ Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operat
             current_node = current_node.parent();
         }while(child.right_sibling().is_null() && level != -1);
 
+        // Si hemos encontrado a un nodo tío
         if(!child.right_sibling().is_null())
             child = child.right_sibling();
     }
 
     return *this;
-
 }
 
 std::string Dictionary::possible_words_iterator::operator*() const {

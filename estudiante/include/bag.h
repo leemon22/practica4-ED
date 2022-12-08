@@ -52,7 +52,7 @@ public:
      * @return El elemento elegido aleatoriamente.
      */
     T get() {
-        //srand(time(NULL));
+        srand(time(NULL));
         int elem = rand() % v.size();
         T ret = v[elem];
         if (elem != v.size()-1) {

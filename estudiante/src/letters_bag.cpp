@@ -7,7 +7,8 @@ LettersBag::LettersBag(const LettersBag &other):letters(other.letters) {}
 
 LettersBag::LettersBag(const LettersSet & letters_set) {
     for (LettersSet::const_iterator it = letters_set.begin(); it != letters_set.end(); ++it) {
-        letters.add((*it).first);
+        for(int i = 0; i < it.value().repetitions; ++i)
+            letters.add((*it).first);
     }
 }
 void LettersBag::insertLetter(const char &l) {
