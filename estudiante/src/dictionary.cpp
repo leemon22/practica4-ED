@@ -212,6 +212,7 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
     if (iter.get_level() == 0) {
         sigo = false;
         curr_word = "";
+        //++iter;
     }
     while (sigo) {
         //current_level = iter.get_level();

@@ -3,16 +3,98 @@
 //
 
 #include "solver.h"
+#include "algorithm"
 
 /** Solver *////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Solver::Solver(const Dictionary &dic, const LettersSet &letters_set) {
-
-}
+Solver::Solver(const Dictionary &dic, const LettersSet &letters_set) : sol_words(), points(0), dic(dic), letters_set(letters_set) {}
 
 pair<vector<string>, int> Solver::getSolutions(const vector<char> &available_letters, bool score_game) {
+    InicializarSolucion();
+    for (Dictionary::iterator it = dic.begin(); it != dic.end(); ++it) {
+        if(PalabraDisponible(*it,available_letters)) {
+            if (SuperaMax(*it, score_game)) {
+                LimpiarSolucion();
+                AniadirPalabra(*it);
+
+            } else if (IgualQueMax(*it, score_game)) {
+                AniadirPalabra(*it);
+            }
+        }
+    }
+
+    return {sol_words,points};
+}
+
+void Solver::InicializarSolucion() {
+    LimpiarSolucion();
+    points = 0;
+}
+void Solver::LimpiarSolucion() {
+    sol_words.clear();
+}
+
+bool Solver::SuperaMax(string pal, bool score_game) {
+    bool supera = false;
+    int score_pal = 0;
+
+    if (score_game) {
+        score_pal = letters_set.getScore(pal);
+    }
+
+    else {
+        score_pal = pal.length();
+    }
+
+    if (score_pal > points) {
+        supera = true;
+        points = score_pal;
+    }
+
+
+    return supera;
+}
+
+
+
+bool Solver::IgualQueMax(string pal, bool score_game) {
+    bool igual = false;
+    int score_pal = 0;
+
+    if (score_game) {
+        score_pal = letters_set.getScore(pal);
+    }
+
+    else {
+        score_pal = pal.length();
+    }
+
+
+    if (score_pal == points) {
+        igual = true;
+    }
+
+    return igual;
+}
+
+bool Solver::PalabraDisponible(string word, const vector<char> & available_letters) {
+    bool disponible = true;
+    int i = 0;
+    int word_length = word.length();
+
+    while (disponible && i < word_length) {
+        if (count(word.begin(),word.end(),word.at(i)) > count(available_letters.begin(), available_letters.end(),word.at(i))  ) {
+            disponible = false;
+        }
+    }
+    return disponible;
+}
+
+void Solver::AniadirPalabra(string word) {
+    sol_words.push_back(word);
 
 }
+
 
 /** Solver Eficiente *//////////////////////////////////////////////////////////////////////////////////////////////////
 

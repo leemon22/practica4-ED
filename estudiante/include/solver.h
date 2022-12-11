@@ -17,10 +17,21 @@ class Solver {
 private:
     vector<string> sol_words;
     int points;
+    Dictionary dic;
+    LettersSet letters_set;
+    //LettersBag bag;
 public:
     Solver(const Dictionary & dic, const LettersSet & letters_set);
     pair<vector<string>,int> getSolutions (const vector <char> & available_letters, bool score_game);
+private:
+    //void LlenarBolsa(const vector<char> & letters);
+    bool SuperaMax(string pal, bool score_game);
 
+    bool IgualQueMax(string pal, bool score_game);
+    void AniadirPalabra(string word);
+    bool PalabraDisponible(string word, const vector<char> & available_letters);
+    void InicializarSolucion();
+    void LimpiarSolucion();
 };
 
 /**
