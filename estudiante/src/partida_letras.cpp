@@ -6,6 +6,7 @@
 #include "letters_set.h"
 #include "letters_bag.h"
 #include "solver.h"
+#include <string>
 #include <fstream>
 
 int main(int argc, char *argv[]) {
@@ -41,12 +42,12 @@ int main(int argc, char *argv[]) {
 
     f_letras.close();
 
-    if (argv[3] != "L" || argv[3] != "P") {
+    if (argv[3][0] != 'L' && argv[3][0] != 'P') {
         cerr << "Modo de juego no disponible" << endl;
         exit(-1);
     }
 
-    if (argv[3] == "P") {
+    if (argv[3][0] == 'P') {
         score_game = true;
     }
     else {
@@ -63,6 +64,22 @@ int main(int argc, char *argv[]) {
 
     Solver solver(dic,letters);
 
+    cout << "LETRAS DISPONIBLES:" << endl;
+    for (int i = 0; i < num_letters; ++i) {
+        cout << available_letters[i] << "\t";
+    }
+    cout << endl;
+
+    pair<vector<string>, int> sols = solver.getSolutions(available_letters,score_game);
+    int tope = sols.first.size();
+
+    cout << "SOLUCIONES:" << endl;
+    for (int j = 0; j < tope; ++j) {
+        cout << sols.first[j] << endl;
+
+    }
+
+    cout << "PUNTUACION:" << endl << sols.second << endl;
 
 
 

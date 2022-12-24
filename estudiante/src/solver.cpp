@@ -86,6 +86,7 @@ bool Solver::PalabraDisponible(string word, const vector<char> & available_lette
         if (count(word.begin(),word.end(),word.at(i)) > count(available_letters.begin(), available_letters.end(),word.at(i))  ) {
             disponible = false;
         }
+        ++i;
     }
     return disponible;
 }

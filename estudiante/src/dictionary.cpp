@@ -208,6 +208,7 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
     //++iter;
     int current_level = iter.get_level();
     ++iter;
+
     bool sigo = true;
     if (iter.get_level() == 0) {
         sigo = false;
