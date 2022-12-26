@@ -274,91 +274,166 @@ Dictionary::possible_words_iterator Dictionary::possible_words_end() const {
 }
 
 Dictionary::possible_words_iterator::possible_words_iterator():
-    available_letters(), level(-1), current_node(), current_word(""){}
+    available_letters(), current_node(), current_word(""){}
 
 Dictionary::possible_words_iterator::possible_words_iterator(node current_node, vector<char> available_letters):
-        level(0), current_node(current_node){
+        current_node(current_node){
 
     for(char &c : available_letters)
         this->available_letters.insert(c);
 
-    if(!(*current_node).valid_word)
-        ++(*this);
+    ++(*this);
 }
 
 Dictionary::possible_words_iterator::possible_words_iterator(const possible_words_iterator &other) = default;
 
 Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator=(const Dictionary::possible_words_iterator &other) = default;
 
-bool Dictionary::possible_words_iterator::operator==(const Dictionary::possible_words_iterator &other) const {
-
-    // Solo comparamos estos campos porque es la única forma de compararlo con el iterador end()
+bool Dictionary::possible_words_iterator::isEqual(const Dictionary::possible_words_iterator &other) const {
     return current_word == other.current_word && current_node == other.current_node;
 }
 
+bool Dictionary::possible_words_iterator::operator==(const Dictionary::possible_words_iterator &other) const {
+    return isEqual(other);
+}
+
 bool Dictionary::possible_words_iterator::operator!=(const Dictionary::possible_words_iterator &other) const {
-    current_word != other.current_word || current_node != other.current_node;
+    return !isEqual(other);
+}
+
+bool Dictionary::possible_words_iterator::esNodoFinal(const Dictionary::node &nodo) const {
+    return (*nodo).valid_word;
+}
+
+const char &Dictionary::possible_words_iterator::letraNodo(const Dictionary::node &nodo) const {
+    return (*nodo).character;
+}
+
+void Dictionary::possible_words_iterator::avanzarHijo(const Dictionary::node &hijo) {
+
+    char letraHijo = letraNodo(hijo);
+
+    multiset<char>::iterator it = available_letters.find(letraHijo);
+    available_letters.erase(it);
+
+    current_node = hijo;
+
+    current_word += letraHijo;
+}
+
+void Dictionary::possible_words_iterator::avanzarHermano(const Dictionary::node &hermano) {
+
+    char miLetra = letraNodo(current_node);
+    char letraHermano = letraNodo(hermano);
+
+    available_letters.insert(miLetra);
+    multiset<char>::iterator it = available_letters.find(letraHermano);
+    available_letters.erase(it);
+
+    current_node = hermano;
+
+    current_word.pop_back();
+    current_word += letraHermano;
+}
+
+void Dictionary::possible_words_iterator::avanzarPadre() {
+
+    char miLetra = letraNodo(current_node);
+
+    available_letters.insert(miLetra);
+
+    current_node = current_node.parent();
+
+    current_word.pop_back();
+}
+
+Dictionary::node Dictionary::possible_words_iterator::obtenerHijoValido() const {
+
+    node hijo;
+
+    if(available_letters.size() > 0) {
+
+        hijo = current_node.left_child();
+        char letraHijo = (hijo.is_null()) ? '\0' : letraNodo(hijo);
+
+        while (!hijo.is_null() && available_letters.count(letraHijo) == 0){
+            hijo = hijo.right_sibling();
+            letraHijo = (hijo.is_null()) ? '\0' : letraNodo(hijo);
+        }
+    }
+
+    return hijo;
+}
+
+Dictionary::node Dictionary::possible_words_iterator::obtenerHermanoValido() const {
+
+    node hermano = current_node.right_sibling();
+    char letraHermano = (hermano.is_null()) ? '\0' : letraNodo(hermano);
+
+    while (!hermano.is_null() && available_letters.count(letraHermano) == 0){
+        hermano = hermano.right_sibling();
+        letraHermano = (hermano.is_null()) ? '\0' : letraNodo(hermano);
+    }
+
+    return hermano;
+}
+
+void Dictionary::possible_words_iterator::retrocederEnArbol() {
+
+    while (hayPadre()){
+        avanzarPadre();
+        node tio = obtenerHermanoValido();
+
+        if(!tio.is_null()){
+            avanzarHermano(tio);
+            return;
+        }
+    }
 }
 
 Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator++() {
 
-    node child = current_node.left_child();
+    bool termina = current_node.is_null();
 
-    while(level != -1){
+    while(!termina){
 
-        // Recorrido de los hijos
-        while(!child.is_null()){
+        // Accedo al primer hijo
+        node hijo = obtenerHijoValido();
 
-            // Comprueba si el hijo tiene una letra válida
-            multiset<char>::iterator c = available_letters.find((*child).character);
-            if(c != available_letters.end()){
+        if(!hijo.is_null()){
 
-                vector<char> available_child;
-                available_child.reserve(available_letters.size()-1);
-                for(multiset<char>::iterator it = available_letters.begin(); it != available_letters.end(); ++it)
-                    if(it != c)
-                        available_child.push_back(*it);
-
-                // Recorre el árbol del hijo en busca de una palabra válida
-                possible_words_iterator child_pwi(child, available_child);
-
-                if(child_pwi.level != -1){
-
-                    // Nos quedamos con esta palabra
-                    level += 1 + child_pwi.level;
-                    current_node = child_pwi.current_node;
-                    current_word += *c + child_pwi.current_word;
-                    available_letters = child_pwi.available_letters;
-
-                    return *this;
-                }
-            }
-
-            // Avanzamos al siguiente hijo
-            child = child.right_sibling();
+            // Si existe el hijo, avanzo el iterador al hijo
+            avanzarHijo(hijo);
+            // Veo si es el final de una palabra
+            if(esNodoFinal(current_node))
+                termina = true;
         }
+        else{
+            // Si no existe el hijo, accedo al hermano
+            node hermano = obtenerHermanoValido();
 
-        // Me muevo al hermano, si no al tío, etc...
-        do{
-            if(level != 0){
-                available_letters.insert(current_word.back());
-                current_word.pop_back();
+            if(!hermano.is_null()){
+
+                // Si existe el hermano, avanzo el iterador al hermano
+                avanzarHermano(hermano);
+                // Veo si es el final de una palabra
+                if(esNodoFinal(current_node))
+                    termina = true;
             }
+            else{
+                // Si no se ha encontrado nodos para continuar en los hijos o en los hermanos, retrocedemos en el arbol
+                retrocederEnArbol();
 
-            --level;
-            child = current_node;
-            current_node = current_node.parent();
-        }while(child.right_sibling().is_null() && level != -1);
-
-        // Si hemos encontrado a un nodo tío
-        if(!child.right_sibling().is_null())
-            child = child.right_sibling();
+                // Paramos el bucle si retrocediendo en el arbol estamos en un nodo final o en un nodo nulo
+                if(!hayPadre() || esNodoFinal(current_node))
+                    termina = true;
+            }
+        }
     }
 
     return *this;
 }
 
 std::string Dictionary::possible_words_iterator::operator*() const {
-
     return current_word;
 }

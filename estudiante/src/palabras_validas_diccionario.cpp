@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
   dict_file >> dictionary;
 
   vector <string> available_words;
-  for (auto it = dictionary.possible_words_begin(available_letters); it != dictionary.possible_words_end(); ++it) {
+  auto end = dictionary.possible_words_end();
+  for (auto it = dictionary.possible_words_begin(available_letters); it != end; ++it) {
     available_words.push_back(*it);
   }
 

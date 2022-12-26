@@ -72,6 +72,10 @@ int main(int argc, char *argv[]){
     // Sacamos las letras de la bolsa
     vector<char> letras = bolsa.extractLetters(num_letras);
 
+    // Damos formato en minúscula para recorrer el diccionario
+    for(char &c : letras)
+        c = tolower(c);
+
     // Resolvemos
     pair<vector<string>, int> solucion = solver.getSolutions(letras, modo_juego);
 

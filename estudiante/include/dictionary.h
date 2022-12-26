@@ -352,8 +352,23 @@ public:
         std::string operator*() const;
 
     private:
+
+        bool isEqual(const possible_words_iterator &other) const;
+
+        bool esNodoFinal(const node &nodo) const;
+        const char &letraNodo(const node &nodo) const;
+
+        void avanzarHermano(const node &hermano);
+        void avanzarHijo(const node &hijo);
+        void avanzarPadre();
+
+        node obtenerHijoValido() const;
+        node obtenerHermanoValido() const;
+
+        void retrocederEnArbol();
+        bool hayPadre() const{ return current_word.size() > 0 && !current_node.parent().is_null();};
+
         multiset<char> available_letters;
-        int level;
         node current_node;
         string current_word;
     };
