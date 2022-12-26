@@ -190,7 +190,7 @@ int Dictionary::getTotalUsages(const char c){
 //                                 Iterator                                  //
 ///////////////////////////////////////////////////////////////////////////////
 
-Dictionary::iterator::iterator() : iter() {
+Dictionary::iterator::iterator() : iter(), curr_word("") {
 
 }
 
@@ -205,7 +205,7 @@ std::string Dictionary::iterator::operator*() {
 }
 
 Dictionary::iterator &Dictionary::iterator::operator++() {
-    //++iter;
+
     int current_level = iter.get_level();
     ++iter;
 
@@ -213,11 +213,10 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
     if (iter.get_level() == 0) {
         sigo = false;
         curr_word = "";
-        //++iter;
+
     }
     while (sigo) {
-        //current_level = iter.get_level();
-        //++iter;
+
         if (iter.get_level() > current_level) {
             curr_word.push_back((*iter).character);
         } else if (iter.get_level() == current_level) {
@@ -234,7 +233,7 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
 
         if ((*iter).valid_word) {
             sigo = false;
-            //curr_word = "";
+
         }
         else {
             current_level = iter.get_level();

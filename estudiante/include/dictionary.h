@@ -84,8 +84,22 @@ private:
      */
     node insertCharacter(char character, node current);
 
+    /**
+     * @brief Cuenta el número de veces que aparece la letra @param c debajo del nodo @param curr_node.
+     * @param curr_node Nodo del que se estudiará el número de veces que aparece la letra @param c por debajo de él.
+     * @param c Letra que se va a estudiar.
+     * @pos Es una función recursiva.
+     * @return Número de veces que aparece la letra @param c por debajo del nodo @param curr_node.
+     */
     int getOccurrences(node curr_node, char c);
 
+    /**
+     * @brief Cuenta el número de veces que se utiliza la letra @param c en el diccionario debajo del nodo @param curr_node.
+     * @param curr_node Nodo del que se estudiará el número de veces que se utiliza la letra @param c en el diccionario por debajo de él.
+     * @param c Letra que se va a estudiar.
+     * @pos Es una función recursiva.
+     * @return Número de veces que se utiliza la letra @param c en las palabras del diccionario por debajo del nodo @param curr_node.
+     */
     std::pair<int, int> getTotalUsages(node curr_node, char c);
 
 public:
@@ -191,8 +205,20 @@ public:
 
     //////////////////////////////////////////////// Recursive functions ///////////////////////////////////////////////
 
+    /**
+     * @brief Calcula el número de veces que aparece la letra @param c en el árbol.
+     * @param c Letra a la que calcular el núemro de veces que aparece en el árbol.
+     * @pos Se estudiará de forma recursiva.
+     * @return Número de veces que aparece la letra @param c en el árbol.
+     */
     int getOccurrences(const char c);
 
+    /**
+     * @brief Calcula el número de veces que se utiliza la letra @param c en las palabras que almacena nuestro diccionario.
+     * @param c Letra a la que se calculará las veces que aparecr en las palabras que almacena el diccionario.
+     * @pos Se estudiará de forma recursiva.
+     * @return El número de veces que se emplea la letra @param c en las palabras del diccionario.
+     */
     int getTotalUsages(const char c);
 
     ///////////////////////////////////////////////////// Iterator ////////////////////////////////////////////////////
@@ -204,22 +230,65 @@ public:
 
     public:
 
+        /**
+         * @brief Constructor por defecto.
+         * @pos Inicializa @param curr_word a la cadena vacía
+         * @pos y el iterador interno por defecto @param iter.
+         */
         iterator();
 
+        /**
+         * @brief Constructor con parámetros.
+         * @param iter iterador de la estructura de árbol que iterará sobre nuestro diccionario.
+         * @pos Inicializa el iterador @param iter y @param curr_word a la cadena vacía.
+         */
         iterator(tree<char_info>::const_preorder_iterator iter);
 
+        /**
+         * @brief Sobrecarga del operador *.
+         * @return La palabra actual (@param curr_word).
+         */
         std::string operator*();
 
+        /**
+         * @brief Sobrecarga del operador ++. El iterador apuntará al siguiente nodo en el que termina una
+         * @brief palabra válida. Además, la palabra actual se irá actualizando conforme se va recorriendo.
+         * @pos Se irá controlando el cambio de nivel de profundidad en el que se encuentre el iterador. Esto es, si
+         * @pos al iterar sobre los nodos aumentamos el nivel, se van añadiendo letras a @param curr_word.
+         * @pos Si, en cambio, el nivel es el mismo, se elimina la última letra añadida y se añade por la
+         * @pos nueva rama. De lo contrario, si el nivel es menor, se van elimiando letras hasta situarnos
+         * @pos rama actual.
+         * @return el objeto implícito (el propio iterador).
+         */
         iterator &operator++();
 
+        /**
+         * @brief Sobrecarga del operador ==. Comprobará si dos iteradores apuntan al mismo nodo
+         * @param other Iterador a comparar.
+         * @return True si apuntan al mismo nodo, false en caso contrario.
+         */
         bool operator==(const iterator &other);
 
+        /**
+         * @brief Sobrecarga del operador !=. Comprobará si dos iteradores apuntan a diferentes nodos.
+         * @param other Iterador a comparar.
+         * @return False si apuntan al mismo nodo, false en caso contrario.
+         */
         bool operator!=(const iterator &other);
 
     };
 
+    /**
+     * @brief Devuelve un iterador a la primera palabra (válida) del diccionario.
+     * @return Un iterador a la primera palabra del diccionario.
+     */
     iterator begin() const;
 
+    /**
+     * @brief Devuelve un iterador al final de la estructura. Concretamente, a la palabra vacía al final
+     * @brief del diccionario.
+     * @return Un iterador a la palabra vacía al final del diccionario.
+     */
     iterator end() const;
 
     ///////////////////////////////////////////////// Letters Iterator /////////////////////////////////////////////////

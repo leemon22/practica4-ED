@@ -1,4 +1,4 @@
-/*! \mainpage Título de la página principal
+/*! \mainpage JUEGO DE LAS LETRAS
 
 # Introducción
 
@@ -6,6 +6,102 @@ A RELLENAR POR EL ESTUDIANTE
 
 # Ejecutables
 
-A RELLENAR POR EL ESTUDIANTE
+## diccionario
+
+A partir del fichero @p fichero_dic de un diccionario, mostrará por pantalla todas las palabras del mismo.
+
+
+> __diccionario__  <fichero_dic>
+
+@param <fichero_dic> Se trata de un fichero de palabras (no necesariamente ordenadas alfabéticamente)
+que formarán parte de un diccionario.
+
+### Ejemplos de uso:
+
+Sea diccionario_prueba.txt un fichero de texto que contiene lo siguiente:
+
+    pedro
+    juan
+    alberto
+    pera
+    tortilla
+    pan
+    oso
+    hoja
+
+
+
+Si ejecutamos
+
+> diccionario  ./data/diccionario_prueba.txt
+
+La salida del mismo debe ser:
+
+    alberto
+    hoja
+    juan
+    oso
+    pan
+    pedro
+    pera
+    tortilla
+
+## cantidad_letras
+
+A partir del fichero @p fichero_dic de un diccionario, y un fichero @p fichero_letras de letras,
+construirá un LetterSet con las letras de @p fichero_letras y un diccionario con las palabras de @p fichero_diccionario.
+Además, calculará el número de ocurrencias de las letras de dicho LetterSet en el Diccionario, así como el número de veces
+que aparece cada letra en el árbol que representa a nuestro diccionario (será siempre menor o igual que el número de usos).
+
+> __cantidad_letras__  <fichero_dic> <fichero_letras>
+
+@param <fichero_dic> Se trata de un fichero de palabras (no necesariamente ordenadas por orden alfabético)
+que formarán parte de un diccionario
+@param <fichero_letras> Se trata de un fichero de letras (no necesariamente ordenadas por orden alfabético)
+que formarán parte del LetterSet.
+
+@pre La cabecera del fichero de letras viene dada por "Letra Cantidad Puntos"
+
+
+### Ejemplos de uso:
+
+Sea diccionario_prueba.txt un fichero de texto que contiene lo siguiente:
+
+    movil
+    movilistico
+    mueble
+    martir
+    alejarse
+    alejandro
+    antes
+
+
+
+Sea letras_mini.txt un fichero de texto que contiene lo siguiente:
+
+    Letra Cantidad Puntos
+    A	12	1
+    C	5	3
+    L	1	1
+    M	2	3
+    O	9	1
+    R	6	1
+    Z	1	10
+
+
+Si ejecutamos
+
+> cantidad_letras  ./data/diccionario_prueba.txt letras_mini.txt
+
+La salida del mismo debe ser:
+
+    Letra	Usos	Ocurrencias
+    A	6	3
+    C	1	1
+    L	5	3
+    M	4	1
+    O	4	3
+    R	4	4
+    Z	0	0
 
 */
