@@ -162,3 +162,12 @@ void EfficientSolver::jugarPorPuntuacion(const std::string &palabra) {
         }
     }
 }
+
+int EfficientSolver::getScore(const string &palabra){
+
+    string palabra_may;
+    for(char c: palabra)
+        palabra_may += toupper(c);
+
+    return letters_set.getScore(palabra_may);
+}

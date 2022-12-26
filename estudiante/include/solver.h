@@ -150,7 +150,7 @@ private:
      * @param palabra Palabra a la que queremos mirar su puntuación
      * @return Puntuación de la palabra.
      */
-    int getScore(const string &palabra){ return letters_set.getScore(palabra);};
+    int getScore(const string &palabra);
 
 public:
 
