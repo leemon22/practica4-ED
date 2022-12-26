@@ -104,4 +104,73 @@ La salida del mismo debe ser:
     R	4	4
     Z	0	0
 
+
+
+
+## partida_letras
+
+A partir del fichero @p fichero_dic de un diccionario, un fichero @p fichero_letras de letras con su puntuación,
+se jugará una partida del juego de las letras utilizando el Solver inicial. Se jugará por puntuación si el tercer
+argumento es una P y se jugará por longitud si es suna L. Asimismo, el cuarto arggumento determinará
+la cantidad de letras con las que vamos a jugar la partida (que serán extraídas de manera aleatoria de nuestra bolsa
+de letras).
+
+> __partida_letras__  <fichero_dic> <fichero_letras> <modo_juego> <cant_letras>
+
+@param <fichero_dic> Se trata de un fichero de palabras (no necesariamente ordenadas por orden alfabético)
+que formarán parte de un diccionario
+@param <fichero_letras> Se trata de un fichero de letras (no necesariamente ordenadas por orden alfabético)
+que formarán parte del LetterSet.
+@param <modo_juego> Indica si se jugará por longitud (L) o por puntuación (P).
+@param <cant_letras>  Número de letras con las que vamos a formar palabras.
+
+@pre La cabecera del fichero de letras viene dada por "Letra Cantidad Puntos"
+@pre No se permite cualquier otro modo de juego (solo L o P)
+@pre La cantidad de letras debe ser un número positivo
+
+### Ejemplos de uso:
+
+Sea diccionario_prueba.txt un fichero de texto que contiene lo siguiente:
+
+    movil
+    movilistico
+    mueble
+    martir
+    alejarse
+    alejandro
+    antes
+
+
+
+Sea letras_mini.txt un fichero de texto que contiene lo siguiente:
+
+    Letra Cantidad Puntos
+    A	12	1
+    C	5	3
+    L	1	1
+    M	2	3
+    O	9	1
+    R	6	1
+    Z	1	10
+
+
+Si ejecutamos
+
+> partida_letras ./data/diccionario_prueba.txt ./data/letras_mini.txt L 4
+
+Una salida del mismo puede ser:
+
+
+Si volvemos a ejecutar:
+
+
+Por otra parte, si ejecutamos
+
+> partida_letras ./data/diccionario_prueba.txt ./data/letras_mini.txt P 4
+
+Una salida del mismo puede ser:
+
+
+Si volvemos a ejecutar:
+
 */
