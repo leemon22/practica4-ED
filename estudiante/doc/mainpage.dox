@@ -104,14 +104,57 @@ La salida del mismo debe ser:
     R	4	4
     Z	0	0
 
+# palabras_validas_diccionario
 
+Programa al que se le carga la ruta de un fichero @p fichero_dic que contiene un diccionario y un conjunto de letras @p ...<letras>.
+En primer lugar, el programa guarda en un vector las letras que se han pasado como parámetros.
+Luego, el programa construye un diccionario a través de los datos del fichero.
+Finalmente, se crea un possible_words_iterator del diccionario en base del vector de letras y se van imprimiendo las
+palabras del diccionario que tienen algunas o todas esas letras.
+
+> __palabras_validas_diccionario__  <fichero_dic> ...<letras>
+
+@param <fichero_dic> Se trata de un fichero de palabras (no necesariamente ordenadas por orden alfabético)
+que formarán parte de un diccionario
+@param ...<letras> Conjunto de letras que establecerán las palabras que recorra el iterador.
+
+### Ejemplos de uso:
+
+Si tenemos el siguiente diccionario en el fichero ./data/diccionario_mini.txt:
+
+    a
+    ama
+    amar
+    amo
+    amor
+    cal
+    col
+    coz
+
+Y ejecutamos el comando:
+> __palabras_validas_diccionario__  data/diccionario_mini.txt a m o c l
+
+Obtenemos la siguiente salida:
+    a
+    amo
+    cal
+    col
+
+Si ahora ejecutamos:
+> __palabras_validas_diccionario__  data/diccionario_mini.txt a m o c z r
+
+Obtenemos:
+    a
+    amo
+    amor
+    coz
 
 
 ## partida_letras
 
 A partir del fichero @p fichero_dic de un diccionario, un fichero @p fichero_letras de letras con su puntuación,
 se jugará una partida del juego de las letras utilizando el Solver inicial. Se jugará por puntuación si el tercer
-argumento es una P y se jugará por longitud si es suna L. Asimismo, el cuarto arggumento determinará
+argumento es una P y se jugará por longitud si es suna L. Asimismo, el cuarto argumento determinará
 la cantidad de letras con las que vamos a jugar la partida (que serán extraídas de manera aleatoria de nuestra bolsa
 de letras).
 
@@ -197,4 +240,107 @@ Una salida del mismo puede ser:
 
 Si volvemos a ejecutar:
 
+    LETRAS DISPONIBLES:
+    C	A	C	M	C	R	A	O
+    SOLUCIONES:
+    amar
+    amor
+    PUNTUACION:
+    6
+
+## partida_letras_eficiente
+
+A nivel de usuario, este programa es el mismo que el anterior, partida_letras. La única diferencia que puede notar el
+usuario es que este programa es más rápido que el anterior. La diferencia a nivel de código es que este programa un solver
+más eficiente, que va descartando caminos por el diccionario.
+
+La sintaxis para usar este programa es la misma que la de partidas_letras:
+
+> __partida_letras_eficiente__  <fichero_dic> <fichero_letras> <modo_juego> <cant_letras>
+
+Donde cada argumento tiene la misma función que en el programa anterior:
+
+@param <fichero_dic> Se trata de un fichero de palabras (no necesariamente ordenadas por orden alfabético)
+que formarán parte de un diccionario
+@param <fichero_letras> Se trata de un fichero de letras (no necesariamente ordenadas por orden alfabético)
+que formarán parte del LetterSet.
+@param <modo_juego> Indica si se jugará por longitud (L) o por puntuación (P).
+@param <cant_letras>  Número de letras con las que vamos a formar palabras.
+
+@pre La cabecera del fichero de letras viene dada por "Letra Cantidad Puntos"
+@pre No se permite cualquier otro modo de juego (solo L o P)
+@pre La cantidad de letras debe ser un número positivo
+
+### Ejemplos de uso:
+Si le pasamos como diccionario el archivo data/diccionario.txt (no lo voy a mostrar porque tiene 78399 palabras) y como
+conjunto de letras data/letras.txt que contiene:
+
+    Letra Cantidad Puntos
+    A	12	1
+    B	2	3
+    C	5	3
+    D	5	2
+    E	12	1
+    F	1	4
+    G	2	2
+    H	2	4
+    I	6	1
+    J	1	8
+    L	1	1
+    M	2	3
+    N	5	1
+    O	9	1
+    P	2	3
+    Q	1	5
+    R	6	1
+    S	6	1
+    T	4	1
+    U	5	1
+    V	1	4
+    X	1	8
+    Y	1	4
+    Z	1	10
+
+Entonces, si ejecutamos:
+
+> partida_letras_eficiente data/diccionario.txt data/letras_may.txt P 9
+
+Podemos obtener la siguiente salida:
+    LETRAS DISPONIBLES:
+    I H I M O U D O A
+    SOLUCIONES:
+    hamudi
+    humido
+    PUNTUACION:
+    12
+Aquí estamos jugando por puntuación. Pero si ejecutamos:
+
+> partida_letras_eficiente data/diccionario.txt data/letras_may.txt L 9
+
+Podemos obtener:
+    LETRAS DISPONIBLES:
+    E E E J P A E R E
+    SOLUCIONES:
+    eraje
+    jerpa
+    peaje
+    PUNTUACION:
+    5
+Donde jugamos por longitud y aquí la puntuación simboliza la longitud de las palabras.
+Si volvemos a ejecutar el mismo comando obtendremos una salida distinta como esta:
+    LETRAS DISPONIBLES:
+    A C E I R A J A N
+    SOLUCIONES:
+    aniejar
+    cajeria
+    canaria
+    canjear
+    carnaje
+    cearina
+    cernaja
+    crineja
+    encajar
+    enjicar
+    PUNTUACION:
+    7
 */

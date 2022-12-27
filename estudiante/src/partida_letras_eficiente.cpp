@@ -82,7 +82,7 @@ int main(int argc, char *argv[]){
     // Mostramos la salida por consola
     cout << "LETRAS DISPONIBLES:" << endl;
     for(char c : letras)
-        cout << c << " ";
+        cout << (char)toupper(c) << " ";
     cout << endl;
     cout << "SOLUCIONES:" << endl;
     for(string &palabra : solucion.first)
