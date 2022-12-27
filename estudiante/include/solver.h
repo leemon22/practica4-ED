@@ -59,6 +59,18 @@ public:
      * @return Palabras formadas con la longitud o puntuación más alta, así como dicha longitud o puntuación.
      */
     pair<vector<string>,int> getSolutions (const vector <char> & available_letters, bool score_game);
+
+
+    string ToUpper(string word) {
+
+        string palabra_may;
+        for(char c: word)
+            palabra_may += toupper(c);
+
+        return palabra_may;
+    }
+
+
 private:
 
     /**

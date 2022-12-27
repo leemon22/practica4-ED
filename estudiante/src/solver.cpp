@@ -11,13 +11,15 @@ Solver::Solver(const Dictionary &dic, const LettersSet &letters_set) : sol_words
 
 pair<vector<string>, int> Solver::getSolutions(const vector<char> &available_letters, bool score_game) {
     InicializarSolucion();
+    string word;
     for (Dictionary::iterator it = dic.begin(); it != dic.end(); ++it) {
-        if(PalabraDisponible(*it,available_letters)) {
-            if (SuperaMax(*it, score_game)) {
+        word = ToUpper(*it);
+        if(PalabraDisponible(word,available_letters)) {
+            if (SuperaMax(word, score_game)) {
                 LimpiarSolucion();
                 AniadirPalabra(*it);
 
-            } else if (IgualQueMax(*it, score_game)) {
+            } else if (IgualQueMax(word, score_game)) {
                 AniadirPalabra(*it);
             }
         }

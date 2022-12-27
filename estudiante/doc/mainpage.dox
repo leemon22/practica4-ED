@@ -130,17 +130,16 @@ que formarán parte del LetterSet.
 
 ### Ejemplos de uso:
 
-Sea diccionario_prueba.txt un fichero de texto que contiene lo siguiente:
+Sea diccionario_mini.txt un fichero de texto que contiene lo siguiente:
 
-    movil
-    movilistico
-    mueble
-    martir
-    alejarse
-    alejandro
-    antes
-
-
+    a
+    ama
+    amar
+    amo
+    amor
+    cal
+    col
+    coz
 
 Sea letras_mini.txt un fichero de texto que contiene lo siguiente:
 
@@ -156,19 +155,44 @@ Sea letras_mini.txt un fichero de texto que contiene lo siguiente:
 
 Si ejecutamos
 
-> partida_letras ./data/diccionario_prueba.txt ./data/letras_mini.txt L 4
+> partida_letras ./data/diccionario_mini.txt ./data/letras_mini.txt L 8
 
 Una salida del mismo puede ser:
+
+    LETRAS DISPONIBLES:
+    O	M	Z	C	A	O	R	A
+    SOLUCIONES:
+    amar
+    amor
+    PUNTUACION:
+    4
+
 
 
 Si volvemos a ejecutar:
 
 
+    LETRAS DISPONIBLES:
+    O	A	A	C	C	O	Z	A
+    SOLUCIONES:
+    coz
+    PUNTUACION:
+    3
+
+
+
 Por otra parte, si ejecutamos
 
-> partida_letras ./data/diccionario_prueba.txt ./data/letras_mini.txt P 4
+> partida_letras ./data/diccionario_mini.txt ./data/letras_mini.txt P 8
 
 Una salida del mismo puede ser:
+
+    LETRAS DISPONIBLES:
+    A	A	A	A	A	A	R	A
+    SOLUCIONES:
+    a
+    PUNTUACION:
+    1
 
 
 Si volvemos a ejecutar:

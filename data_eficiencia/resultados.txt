@@ -1,0 +1,99 @@
+################ TEST DE PALABRAS ################
+Solver Básico    	4998:	0.00314463
+Solver Eficiente 	4998:	1.99686e-05
+
+Solver Básico    	9981:	0.00616313
+Solver Eficiente 	9981:	2.04535e-05
+
+Solver Básico    	14960:	0.00957123
+Solver Eficiente 	14960:	2.02351e-05
+
+Solver Básico    	19939:	0.0129127
+Solver Eficiente 	19939:	2.03964e-05
+
+Solver Básico    	24920:	0.0163449
+Solver Eficiente 	24920:	2.00962e-05
+
+Solver Básico    	29876:	0.0203538
+Solver Eficiente 	29876:	2.00508e-05
+
+Solver Básico    	34849:	0.0244213
+Solver Eficiente 	34849:	2.01744e-05
+
+Solver Básico    	39759:	0.0281846
+Solver Eficiente 	39759:	1.97676e-05
+
+Solver Básico    	44718:	0.0302479
+Solver Eficiente 	44718:	1.97716e-05
+
+Solver Básico    	49648:	0.0326115
+Solver Eficiente 	49648:	2.00902e-05
+
+Solver Básico    	54580:	0.0362762
+Solver Eficiente 	54580:	2.02902e-05
+
+Solver Básico    	59498:	0.0417017
+Solver Eficiente 	59498:	2.01142e-05
+
+Solver Básico    	64397:	0.043244
+Solver Eficiente 	64397:	2.03994e-05
+
+Solver Básico    	69331:	0.0476155
+Solver Eficiente 	69331:	2.0144e-05
+
+################ TEST DE LETRAS ################
+Solver Básico    	5:	0.00286032
+Solver Eficiente 	5:	3.58632e-05
+
+Solver Básico    	10:	0.00309357
+Solver Eficiente 	10:	0.000115995
+
+Solver Básico    	15:	0.00330469
+Solver Eficiente 	15:	0.00048423
+
+Solver Básico    	20:	0.00351795
+Solver Eficiente 	20:	0.00115187
+
+Solver Básico    	25:	0.00373069
+Solver Eficiente 	25:	0.00206238
+
+Solver Básico    	30:	0.00392239
+Solver Eficiente 	30:	0.0055556
+
+Solver Básico    	35:	0.00411144
+Solver Eficiente 	35:	0.00816605
+
+Solver Básico    	40:	0.00428681
+Solver Eficiente 	40:	0.00672304
+
+Solver Básico    	45:	0.00454081
+Solver Eficiente 	45:	0.00776273
+
+Solver Básico    	50:	0.00474869
+Solver Eficiente 	50:	0.0107529
+
+Solver Básico    	55:	0.00494876
+Solver Eficiente 	55:	0.0124053
+
+Solver Básico    	60:	0.00515284
+Solver Eficiente 	60:	0.0108044
+
+Solver Básico    	65:	0.00534037
+Solver Eficiente 	65:	0.0126965
+
+Solver Básico    	70:	0.00548256
+Solver Eficiente 	70:	0.0145136
+
+Solver Básico    	75:	0.00569916
+Solver Eficiente 	75:	0.0173797
+
+Solver Básico    	80:	0.00590573
+Solver Eficiente 	80:	0.0184659
+
+Solver Básico    	85:	0.00674609
+Solver Eficiente 	85:	0.0210739
+
+Solver Básico    	90:	0.00635721
+Solver Eficiente 	90:	0.0235353
+
+

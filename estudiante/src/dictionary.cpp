@@ -191,12 +191,13 @@ int Dictionary::getTotalUsages(const char c){
 ///////////////////////////////////////////////////////////////////////////////
 
 Dictionary::iterator::iterator() : iter(), curr_word("") {
-
+    ++(*this);
 }
 
 Dictionary::iterator::iterator(tree<char_info>::const_preorder_iterator iter)  {
     this->iter = iter;
     curr_word ="";
+    ++(*this);
 
 }
 
@@ -204,6 +205,7 @@ std::string Dictionary::iterator::operator*() {
     return curr_word;
 }
 
+/*
 Dictionary::iterator &Dictionary::iterator::operator++() {
 
     int current_level = iter.get_level();
@@ -230,6 +232,47 @@ Dictionary::iterator &Dictionary::iterator::operator++() {
             }
             curr_word.push_back((*iter).character);
         }
+
+        if ((*iter).valid_word) {
+            sigo = false;
+
+        }
+        else {
+            current_level = iter.get_level();
+            ++iter;
+        }
+    }
+
+    return *this;
+}*/
+
+Dictionary::iterator &Dictionary::iterator::operator++() {
+
+    int current_level = iter.get_level();
+    ++iter;
+
+
+
+    bool sigo = true;
+    if (iter.get_level() == 0) {
+        sigo = false;
+        curr_word = "";
+
+    }
+    while (sigo) {
+
+        if (iter.get_level() == current_level) {
+            curr_word.pop_back();
+        }
+        else if (iter.get_level() < current_level) {
+            curr_word.pop_back();
+            while (current_level != iter.get_level() && current_level != 0) {
+                curr_word.pop_back();
+                current_level--;
+            }
+
+        }
+        curr_word.push_back((*iter).character);
 
         if ((*iter).valid_word) {
             sigo = false;

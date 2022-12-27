@@ -24,9 +24,8 @@ int main(int argc, char *argv[])
   f_diccionario >> diccionario;
 
   for (Dictionary::iterator it = diccionario.begin(); it != diccionario.end(); ++it){
-    if (it != diccionario.begin())  {
-        cout << *it << endl;
-    }
+      cout << *it << endl;
+
   }
 
   return 0;
