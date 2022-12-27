@@ -315,17 +315,8 @@ void Dictionary::possible_words_iterator::avanzarHijo(const Dictionary::node &hi
 
 void Dictionary::possible_words_iterator::avanzarHermano(const Dictionary::node &hermano) {
 
-    char miLetra = letraNodo(current_node);
-    char letraHermano = letraNodo(hermano);
-
-    available_letters.insert(miLetra);
-    multiset<char>::iterator it = available_letters.find(letraHermano);
-    available_letters.erase(it);
-
-    current_node = hermano;
-
-    current_word.pop_back();
-    current_word += letraHermano;
+    avanzarPadre();
+    avanzarHijo(hermano);
 }
 
 void Dictionary::possible_words_iterator::avanzarPadre() {
