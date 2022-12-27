@@ -371,3 +371,28 @@ Si volvemos a ejecutar el mismo comando obtendremos una salida distinta como est
 
 @ref Analisis_de_eficiencia
 */
+
+/*! \page Analisis_de_eficiencia Analisis de eficiencia
+  # Análisis de eficiencia:
+  Para finalizar la práctica, hemos escrito un programa que hace un análisis de eficiencia de los dos solvers. El
+  programa, archivo analisis_eficiencia.cpp, hace un análisis de eficiencia empírico que compara a las clases Solver
+  y EfficientSolver a través de dos pruebas:
+
+  1. Un análisis donde varia el tamaño del diccionario y en el que cada solver resuelve para un número de letras fijo (9).
+  2. Otro análisis donde varia el número de letras y el diccionario es fijo (diccionario de 69331 palabras).
+
+  Al ejecutar el analisis_eficiencia.cp sacamos los siguientes datos con las siguientes conclusiones:
+
+  @image html variando_dic.png "1"
+  @image html variando_letras.png "2"
+
+
+  1. Cuanto más grande es el diccionario, mayor es la diferencia entre el Solver y el EfficientSolver. Esto se
+  debe a que el EfficientSolver va descartando ramas del diccionario y el Solver no.
+
+  2. Cuantas más letras añadamos al solver, más ineficiente se vuelve el EfficientSolver. Esto se debe a que el
+  EfficientSolver tiene menos oportunidades para descartar ramas del árbol de búsqueda, que es un proceso bastante
+  más caro que seguir hacia delante sin comprobaciones. Como resultado, el Solver tardará menos que el EfficientSolver
+  para conjuntos de letras muy grandes. No obstante, a efectos cotidianos, resulta poco común jugar a este
+  juego con más de 20 letras, luego el EfficientSolver sigue siendo la mejor opción.
+*/
