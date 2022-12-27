@@ -353,20 +353,72 @@ public:
 
     private:
 
+        /**
+         * @brief Compara dos iteradores por la palabra que contienen y por el nodo en el que se encuentran.
+         * @param other el otro iterador que compara.
+         * @return true si contienen la misma palabra y están situados en el mismo nodo.
+         */
         bool isEqual(const possible_words_iterator &other) const;
 
-        bool esNodoFinal(const node &nodo) const;
-        const char &letraNodo(const node &nodo) const;
+        /**
+         * @brief Comprueba si el nodo actual es el final de una palabra.
+         * @return true si current_node es el final de una palabra.
+         */
+        bool soyNodoFinal() const{
+            return (*current_node).valid_word;
+        };
 
+        /**
+         * @brief Obtiene la latra contenida en un nodo.
+         * @param nodo Nodo del que se quiere obtener su letra.
+         * @return La latra que contiene el nodo.
+         */
+        const char &letraNodo(const node &nodo) const{
+            return (*nodo).character;
+        };
+
+        /**
+         * @brief Avanza el iterador a un nodo hermano.
+         * @param hermano Nodo hermano al que se quiere avanzar.
+         * @pre El hermano no debe ser nulo .
+         */
         void avanzarHermano(const node &hermano);
+
+        /**
+         * @brief Avanza el iterador a un nodo hijo.
+         * @param hijo Nodo hijo al que se quiere avanzar.
+         * @pre El hijo no debe ser nulo.
+         */
         void avanzarHijo(const node &hijo);
+
+        /**
+         * @brief Avanza el iterador al nodo padre.
+         * @pre Debe existir padre.
+         */
         void avanzarPadre();
 
-        node obtenerHijoValido() const;
-        node obtenerHermanoValido() const;
+        /**
+         * @brief Recorre los hermanos de primer hermano, incluyendolo, hasta obtener un hermano que tenga una letra
+         * de available_letters.
+         * @param primer_hermano Hermano desde el que se busca el siguiente hermano válido.
+         * @return El primer hermano que contiene una letra del available_letters. Si no lo encuentra, devuelve un
+         * nodo nulo.
+         */
+        node obtenerHermanoValido(const node &primer_hermano) const;
 
+        /**
+         * @brief Retrocede en la jerarquía hasta encontrar un nodo tío válido, o hasta llegar a la raíz.
+         */
         void retrocederEnArbol();
-        bool hayPadre() const{ return current_word.size() > 0 && !current_node.parent().is_null();};
+
+        /**
+         * @brief Mira si el nodo padre del que apunta el iterador existe o es accesible de la forma en la que
+         * está cosntruido el iterador.
+         * @return True si existe el padre o si el padre es capaz de construir palabras.
+         */
+        bool hayPadre() const{
+            return current_word.size() > 0 && !current_node.parent().is_null();
+        };
 
         multiset<char> available_letters;
         node current_node;
@@ -376,7 +428,8 @@ public:
     /**
      * @brief iterador inteligente begin.
      * @param available_characters Letras que usará el iterador para avanzar.
-     * @return El iterador apuntando a la primera palabra válida en el diccionario. Si no la encuentra, apuntará al nodo nulo padre.
+     * @return El iterador apuntando a la primera palabra válida en el diccionario. Si no la encuentra, apuntará al
+     * nodo nulo padre.
      */
     possible_words_iterator possible_words_begin(vector<char> available_characters) const;
 

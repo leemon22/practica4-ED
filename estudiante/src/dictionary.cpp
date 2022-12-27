@@ -301,14 +301,6 @@ bool Dictionary::possible_words_iterator::operator!=(const Dictionary::possible_
     return !isEqual(other);
 }
 
-bool Dictionary::possible_words_iterator::esNodoFinal(const Dictionary::node &nodo) const {
-    return (*nodo).valid_word;
-}
-
-const char &Dictionary::possible_words_iterator::letraNodo(const Dictionary::node &nodo) const {
-    return (*nodo).character;
-}
-
 void Dictionary::possible_words_iterator::avanzarHijo(const Dictionary::node &hijo) {
 
     char letraHijo = letraNodo(hijo);
@@ -347,42 +339,27 @@ void Dictionary::possible_words_iterator::avanzarPadre() {
     current_word.pop_back();
 }
 
-Dictionary::node Dictionary::possible_words_iterator::obtenerHijoValido() const {
+Dictionary::node Dictionary::possible_words_iterator::obtenerHermanoValido(const node &primer_hermano) const {
 
-    node hijo;
+    // Esta condición no es necesaria, pero acelera la ejecución del programa
+    if(available_letters.empty())
+        return node();
 
-    if(available_letters.size() > 0) {
+    for(node hermano = primer_hermano; !hermano.is_null(); hermano = hermano.right_sibling()){
+        char letraHermano = letraNodo(hermano);
 
-        hijo = current_node.left_child();
-        char letraHijo = (hijo.is_null()) ? '\0' : letraNodo(hijo);
-
-        while (!hijo.is_null() && available_letters.count(letraHijo) == 0){
-            hijo = hijo.right_sibling();
-            letraHijo = (hijo.is_null()) ? '\0' : letraNodo(hijo);
-        }
+        if(available_letters.count(letraHermano) > 0)
+            return hermano;
     }
 
-    return hijo;
-}
-
-Dictionary::node Dictionary::possible_words_iterator::obtenerHermanoValido() const {
-
-    node hermano = current_node.right_sibling();
-    char letraHermano = (hermano.is_null()) ? '\0' : letraNodo(hermano);
-
-    while (!hermano.is_null() && available_letters.count(letraHermano) == 0){
-        hermano = hermano.right_sibling();
-        letraHermano = (hermano.is_null()) ? '\0' : letraNodo(hermano);
-    }
-
-    return hermano;
+    return node();
 }
 
 void Dictionary::possible_words_iterator::retrocederEnArbol() {
 
     while (hayPadre()){
         avanzarPadre();
-        node tio = obtenerHermanoValido();
+        node tio = obtenerHermanoValido(current_node.right_sibling());
 
         if(!tio.is_null()){
             avanzarHermano(tio);
@@ -398,26 +375,26 @@ Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operat
     while(!termina){
 
         // Accedo al primer hijo
-        node hijo = obtenerHijoValido();
+        node hijo = obtenerHermanoValido(current_node.left_child());
 
         if(!hijo.is_null()){
 
             // Si existe el hijo, avanzo el iterador al hijo
             avanzarHijo(hijo);
             // Veo si es el final de una palabra
-            if(esNodoFinal(current_node))
+            if(soyNodoFinal())
                 termina = true;
         }
         else{
             // Si no existe el hijo, accedo al hermano
-            node hermano = obtenerHermanoValido();
+            node hermano = obtenerHermanoValido(current_node.right_sibling());
 
             if(!hermano.is_null()){
 
                 // Si existe el hermano, avanzo el iterador al hermano
                 avanzarHermano(hermano);
                 // Veo si es el final de una palabra
-                if(esNodoFinal(current_node))
+                if(soyNodoFinal())
                     termina = true;
             }
             else{
@@ -425,7 +402,7 @@ Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operat
                 retrocederEnArbol();
 
                 // Paramos el bucle si retrocediendo en el arbol estamos en un nodo final o en un nodo nulo
-                if(!hayPadre() || esNodoFinal(current_node))
+                if(!hayPadre() || soyNodoFinal())
                     termina = true;
             }
         }
