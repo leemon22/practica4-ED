@@ -61,14 +61,7 @@ public:
     pair<vector<string>,int> getSolutions (const vector <char> & available_letters, bool score_game);
 
 
-    string ToUpper(string word) {
 
-        string palabra_may;
-        for(char c: word)
-            palabra_may += toupper(c);
-
-        return palabra_may;
-    }
 
 
 private:
@@ -103,6 +96,7 @@ private:
     /**
      * @brief Añade la palabra @param word al vector de soluciones.
      * @param word palabra a añadir.
+     * @pre @param word estará en minúscula, por convenio.
      */
     void AniadirPalabra(string word);
 
@@ -116,6 +110,13 @@ private:
      * @brief Limpia el vector de soluciones.
      */
     void LimpiarSolucion();
+
+    /**
+     * @brief Convierte todas las letras de una palabra en mayúscula.
+     * @param word Palabra a pasar a mayúscula.
+     * @return Palabra convertida a mayúscula
+     */
+    string ToUpper(string word);
 };
 
 /**

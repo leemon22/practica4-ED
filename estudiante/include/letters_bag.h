@@ -30,6 +30,11 @@ public:
      */
     LettersBag(const LettersBag &other);
 
+    /**
+     * @brief Constructor por copia, a partir de un LetterSet.
+     * @param letters_set Letters_set del que se va a copiar su conjunto de letras.
+     * @pos Se copiará cada letra tantas veces como esté en el letters_set.
+     */
     LettersBag(const LettersSet & letters_set);
 
     /**

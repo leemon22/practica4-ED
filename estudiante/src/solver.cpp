@@ -95,9 +95,16 @@ bool Solver::PalabraDisponible(string word, const vector<char> & available_lette
 
 void Solver::AniadirPalabra(string word) {
     sol_words.push_back(word);
-
 }
 
+string Solver::ToUpper(string word) {
+
+    string palabra_may;
+    for(char c: word)
+    palabra_may += toupper(c);
+
+    return palabra_may;
+}
 
 /** Solver Eficiente *//////////////////////////////////////////////////////////////////////////////////////////////////
 
