@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 
     cout << "LETRAS DISPONIBLES:" << endl;
     for (int i = 0; i < num_letters; ++i) {
-        cout << available_letters[i] << "\t";
+        cout << available_letters[i] << " ";
     }
     cout << endl;
 

@@ -61,9 +61,6 @@ public:
     pair<vector<string>,int> getSolutions (const vector <char> & available_letters, bool score_game);
 
 
-
-
-
 private:
 
     /**

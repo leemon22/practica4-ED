@@ -65,7 +65,7 @@ void ChronoPalabras(const Dictionary & dic, const LettersSet & conjunto_letras, 
     // Calculamos lo que tarda
     chrono::duration<double> total_duration1 = chrono::duration_cast<chrono::duration<double>>(finish_time1 - start_time1);
 
-    //cout << "Solver Básico    \t" << npalabras << "\t" << total_duration1.count()/repeticiones << endl;
+    cout << "Solver Básico    \t" << npalabras << "\t" << total_duration1.count()/repeticiones << endl;
     /*********************************************SOLVER EFICIENTE**************************************************/
 
     // Medimos el tiempo
@@ -87,7 +87,7 @@ void ChronoPalabras(const Dictionary & dic, const LettersSet & conjunto_letras, 
 
     /*********************************************RESULTADOS**************************************************/
     // Obtenemos el tiempo medio de ejecución
-    //cout << "Solver Eficiente \t" << npalabras << "\t" << total_duration2.count()/repeticiones << endl;
+    cout << "Solver Eficiente \t" << npalabras << "\t" << total_duration2.count()/repeticiones << endl;
 }
 
 
@@ -158,7 +158,7 @@ void ChronoLetras(const Dictionary &dict, const LettersSet &conjunto, int repeti
     total_duration = chrono::duration_cast<chrono::duration<double>>(finish_time - start_time);
 
     // Obtenemos el tiempo medio de ejecución
-    //cout << "Solver Eficiente \t" << n_letras << "\t" << total_duration.count()/repeticiones << endl;
+    cout << "Solver Eficiente \t" << n_letras << "\t" << total_duration.count()/repeticiones << endl;
 }
 
 vector<Dictionary> CargaDiccionarios();
@@ -180,7 +180,7 @@ int main(){
     // Test en el que varia el numero de letras.
     cout << "################ TEST DE LETRAS ################" << endl;
     for(int j = 5; j <= 90; j += 5){
-        ChronoLetras(diccionarios[0], conjunto_letras, 50, j);
+        ChronoLetras(diccionarios[ndics-1], conjunto_letras, 50, j);
     }
     cout << endl;
 

@@ -2,7 +2,27 @@
 
 # Introducción
 
-A RELLENAR POR EL ESTUDIANTE
+En esta última práctica, hemos desarrollado el juego de las letras por completo. Para ello, en primer lugar, hemos
+utilizado una nueva implementación para el diccionario. Concretamente, se ha utilizado un árbol LCRS (Left Child Right
+Sibling), de manera que cada nodo contiene la siguiente información:
+    1. Etiqueta, que contendrá dos valores: la letra del diccionario y un booleano que indicará si en ese nodo se termina
+    una palabra o no.
+    2. Puntero al hijo más a la izquierda.
+    3. Puntero al padre.
+    4. Puntero al hermano a la derecha.
+
+
+Esta estructura nos ayuda a almacenar las palabras de un diccionario utilizando una menor cantidad de letras que
+en la implementación mediante un set. Esto lo veremos con funciones que contarán el número de ocurrencias de una letra
+en el diccionario y el número de usos que tiene en las palabras, funciones en las cuales la recursividad jugará un papel
+importante.
+Asimismo, de cara a implementar el juego, hemos trabajado con dos tipos de iteradores. Por un lado, un iterador que irá
+recorriendo el árbol palabra por palabra; esto es, se para al final de cada palabra. Por otro lado, un iterador que lo hará
+estudiando además si la palabra se puede formar con una serie de letras dadas. Este último iterador será esencial
+con el objetivo de ganar eficiencia a la hora de desarrollar nuestro juego.
+
+Hemos construido un Solver Básico (que realiza el juego con el primer iterador) y otro EfficientSolver (que emplea el
+segundo iterador).
 
 # Ejecutables
 
@@ -104,7 +124,7 @@ La salida del mismo debe ser:
     R	4	4
     Z	0	0
 
-# palabras_validas_diccionario
+## palabras_validas_diccionario
 
 Programa al que se le carga la ruta de un fichero @p fichero_dic que contiene un diccionario y un conjunto de letras @p ...<letras>.
 En primer lugar, el programa guarda en un vector las letras que se han pasado como parámetros.
@@ -203,7 +223,7 @@ Si ejecutamos
 Una salida del mismo puede ser:
 
     LETRAS DISPONIBLES:
-    O	M	Z	C	A	O	R	A
+    O M Z C	A O	R A
     SOLUCIONES:
     amar
     amor
@@ -216,7 +236,7 @@ Si volvemos a ejecutar:
 
 
     LETRAS DISPONIBLES:
-    O	A	A	C	C	O	Z	A
+    O A	A C	C O	Z A
     SOLUCIONES:
     coz
     PUNTUACION:
@@ -231,7 +251,7 @@ Por otra parte, si ejecutamos
 Una salida del mismo puede ser:
 
     LETRAS DISPONIBLES:
-    A	A	A	A	A	A	R	A
+    A A	A A	A A	R A
     SOLUCIONES:
     a
     PUNTUACION:
@@ -241,7 +261,7 @@ Una salida del mismo puede ser:
 Si volvemos a ejecutar:
 
     LETRAS DISPONIBLES:
-    C	A	C	M	C	R	A	O
+    C A	C M	C R	A O
     SOLUCIONES:
     amar
     amor
@@ -306,6 +326,7 @@ Entonces, si ejecutamos:
 > partida_letras_eficiente data/diccionario.txt data/letras_may.txt P 9
 
 Podemos obtener la siguiente salida:
+
     LETRAS DISPONIBLES:
     I H I M O U D O A
     SOLUCIONES:
@@ -313,11 +334,13 @@ Podemos obtener la siguiente salida:
     humido
     PUNTUACION:
     12
+
 Aquí estamos jugando por puntuación. Pero si ejecutamos:
 
 > partida_letras_eficiente data/diccionario.txt data/letras_may.txt L 9
 
 Podemos obtener:
+
     LETRAS DISPONIBLES:
     E E E J P A E R E
     SOLUCIONES:
@@ -326,8 +349,10 @@ Podemos obtener:
     peaje
     PUNTUACION:
     5
+
 Donde jugamos por longitud y aquí la puntuación simboliza la longitud de las palabras.
 Si volvemos a ejecutar el mismo comando obtendremos una salida distinta como esta:
+
     LETRAS DISPONIBLES:
     A C E I R A J A N
     SOLUCIONES:
@@ -343,4 +368,6 @@ Si volvemos a ejecutar el mismo comando obtendremos una salida distinta como est
     enjicar
     PUNTUACION:
     7
+
+@ref Analisis_de_eficiencia
 */
