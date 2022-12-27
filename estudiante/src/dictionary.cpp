@@ -277,11 +277,7 @@ Dictionary::possible_words_iterator::possible_words_iterator():
     available_letters(), current_node(), current_word(""){}
 
 Dictionary::possible_words_iterator::possible_words_iterator(node current_node, vector<char> available_letters):
-        current_node(current_node){
-
-    for(char &c : available_letters)
-        this->available_letters.insert(c);
-
+        current_node(current_node), available_letters(available_letters.begin(), available_letters.end()){
     ++(*this);
 }
 
